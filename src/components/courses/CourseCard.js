@@ -1,16 +1,15 @@
 // src/components/courses/CourseCard.js
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Card,
-  CardMedia,
   CardContent,
   CardActions,
   Typography,
   Button,
   Chip,
   Box,
-  Avatar,
 } from '@mui/material';
 import {
   School as SchoolIcon,
@@ -19,87 +18,91 @@ import {
 
 const CourseCard = ({ course }) => {
   const navigate = useNavigate();
+  const handleViewCourse = () => navigate(`/courses/${course.id}`);
 
-  const handleViewCourse = () => {
-    navigate(`/courses/${course.id}`);
-  };
-
-  // Default thumbnail if none provided
-  const thumbnailUrl = course.thumbnail 
-    ? `${process.env.REACT_APP_API_URL.replace('/api', '')}${course.thumbnail}`
-    : 'https://via.placeholder.com/300x200?text=Course';
+  const thumbnailUrl = course.thumbnail
+    ? `${process.env.REACT_APP_API_URL.replace('/api','')}${course.thumbnail}`
+    : 'https://via.placeholder.com/640x360?text=Course';
 
   return (
-    <Card 
-      sx={{ 
-        height: '100%', 
-        display: 'flex', 
+    <Card
+      sx={{
+        display: 'flex',
         flexDirection: 'column',
-        transition: 'transform 0.2s, box-shadow 0.2s',
-        '&:hover': {
-          transform: 'translateY(-4px)',
-          boxShadow: 4,
-        },
+        height: '100%',
       }}
     >
-      <CardMedia
-        component="img"
-        height="200"
-        image={thumbnailUrl}
-        alt={course.title}
-        sx={{ objectFit: 'cover' }}
+      {/* 
+        اجعل الخلفية تحافظ على النسبة 16:9، 
+        تظهر كامل الصورة (contain) رأسياً من الأعلى،
+        مع تكرار ممنوع وخلفية رمادية للفراغات 
+      */}
+      <Box
+        sx={{
+          width: '100%',
+          aspectRatio: '16/9',
+          backgroundImage: `url(${thumbnailUrl})`,
+          backgroundSize: 'contain',
+          backgroundPosition: 'top center',
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: '#f5f5f5',
+        }}
       />
-      
-      <CardContent sx={{ flexGrow: 1 }}>
-        <Typography gutterBottom variant="h6" component="h2" noWrap>
+
+      <CardContent
+        sx={{
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}
+      >
+        <Typography variant="h6" noWrap gutterBottom>
           {course.title}
         </Typography>
-        
-        <Typography 
-          variant="body2" 
-          color="text.secondary" 
+
+        <Typography
+          variant="body2"
+          color="text.secondary"
           sx={{
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
             display: '-webkit-box',
-            WebkitLineClamp: 2,
+            WebkitLineClamp: 3,
             WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
             mb: 2,
           }}
         >
           {course.description}
         </Typography>
-        
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-          <PersonIcon fontSize="small" color="action" />
-          <Typography variant="body2" color="text.secondary">
-            {course.instructor_name}
-          </Typography>
+
+        <Box sx={{ mt: 'auto' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
+            <PersonIcon fontSize="small" color="action" />
+            <Typography variant="body2" color="text.secondary" noWrap>
+              {course.instructor_name}
+            </Typography>
+          </Box>
+
+          {course.category_name && (
+            <Chip
+              label={course.category_name}
+              size="small"
+              variant="outlined"
+              icon={<SchoolIcon />}
+              sx={{ mb: 1 }}
+            />
+          )}
+
+          {typeof course.students_count === 'number' && (
+            <Typography variant="body2" color="text.secondary">
+              {course.students_count} students
+            </Typography>
+          )}
         </Box>
-        
-        {course.category_name && (
-          <Chip
-            label={course.category_name}
-            size="small"
-            color="primary"
-            variant="outlined"
-            icon={<SchoolIcon />}
-          />
-        )}
-        
-        {course.students_count !== undefined && (
-          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            {course.students_count} students enrolled
-          </Typography>
-        )}
       </CardContent>
-      
-      <CardActions sx={{ p: 2, pt: 0 }}>
-        <Button 
-          fullWidth 
-          variant="contained" 
-          onClick={handleViewCourse}
-        >
+
+      <CardActions>
+        <Button fullWidth variant="contained" onClick={handleViewCourse}>
           View Course
         </Button>
       </CardActions>

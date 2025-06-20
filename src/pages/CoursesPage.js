@@ -26,7 +26,7 @@ const CoursesPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('newest');
   const [page, setPage] = useState(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 9; // 3x3 grid
 
   useEffect(() => {
     const loadCourses = async () => {
@@ -59,10 +59,12 @@ const CoursesPage = () => {
 
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
+    setPage(1); // Reset to first page when searching
   };
 
   const handlePageChange = (event, value) => {
     setPage(value);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // فلترة الكورسات بناءً على البحث
@@ -139,11 +141,26 @@ const CoursesPage = () => {
         </Box>
       ) : (
         <>
-          <Grid container spacing={3}>
+          <Grid 
+            container 
+            spacing={3}
+            sx={{
+              // ضمان التناسق في العرض
+              display: 'grid',
+              gridTemplateColumns: {
+                xs: '1fr', // عمود واحد على الشاشات الصغيرة
+                sm: 'repeat(2, 1fr)', // عمودين على الشاشات المتوسطة
+                md: 'repeat(3, 1fr)', // 3 أعمدة على الشاشات الكبيرة
+              },
+              gap: 3,
+              // ضمان نفس الارتفاع لجميع البطاقات في نفس الصف
+              gridAutoRows: '1fr',
+            }}
+          >
             {paginatedCourses.map((course) => (
-              <Grid item xs={12} sm={6} md={4} key={course.id}>
+              <Box key={course.id} sx={{ display: 'flex' }}>
                 <CourseCard course={course} />
-              </Grid>
+              </Box>
             ))}
           </Grid>
 
