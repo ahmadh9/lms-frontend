@@ -1,70 +1,156 @@
-# Getting Started with Create React App
+# 🎓 LMS Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A fully responsive, role-based frontend interface for a complete Learning Management System (LMS) built using **React.js** and **Material UI**. This frontend connects seamlessly with the [LMS Backend API](https://github.com/ahmadh9/lms-backend) and supports multiple user roles: `student`, `instructor`, and `admin`.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🚀 Overview
 
-### `npm start`
+The LMS frontend delivers all features expected from a professional e-learning platform:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* Dynamic role-based dashboards
+* Course browsing and enrollment
+* Lesson navigation and completion tracking
+* Interactive quizzes and assignment submissions
+* Instructor course creation and grading tools
+* Admin control panels
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Built using modern React patterns (hooks, context, modular services), the app is designed for maintainability, performance, and scalability.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 👥 Supported Roles
 
-### `npm run build`
+* **Student**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  * Enroll in courses
+  * View lessons
+  * Submit assignments or quizzes
+  * Track progress in real-time
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* **Instructor**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  * Create and manage courses
+  * Upload lessons (video link, text, or file)
+  * Review and grade student submissions
 
-### `npm run eject`
+* **Admin**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+  * Approve or reject courses
+  * Manage users and categories
+  * View platform-wide analytics
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🧩 Tech Stack
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+| Layer      | Technology               |
+| ---------- | ------------------------ |
+| Frontend   | React.js (Vite / CRA)    |
+| UI Library | Material UI (MUI v5)     |
+| Routing    | React Router DOM         |
+| State Mgmt | React Context + useState |
+| HTTP       | Axios                    |
+| Auth Flow  | JWT (with context)       |
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🗂️ Project Structure
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+lms-frontend/
+├── public/              # Static files and index.html
+├── src/
+│   ├── pages/           # Page-level components (Login, Dashboard, etc)
+│   ├── components/      # Shared UI components (Cards, Tables...)
+│   ├── services/        # Axios wrappers for backend API
+│   ├── context/         # Auth & role-based logic
+│   ├── App.js           # App entry with routing
+│   └── index.js         # React DOM rendering
+├── .gitignore
+├── package.json
+└── README.md
+```
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🔑 Key Features
 
-### Analyzing the Bundle Size
+### 🧭 Navigation & Layout
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+* Clean responsive layout
+* Protected routes based on role
+* Navigation bars update dynamically per user role
 
-### Making a Progressive Web App
+### 📚 Courses & Lessons
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+* Browse courses by category
+* Enroll and track your enrolled courses
+* Modular structure (Modules → Lessons)
+* Video support (YouTube, uploaded .mp4)
+* Lesson progress tracking per student
 
-### Advanced Configuration
+### 📝 Assignments & Quizzes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+* Interactive quiz pages
+* Auto-scored quizzes with percentage feedback
+* Assignment upload (file/text)
+* Grading feedback from instructor
 
-### Deployment
+### 👨‍🏫 Instructor Tools
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+* Create/edit/delete courses
+* Add modules and structured lessons
+* Upload video lessons (external link or file)
+* View enrolled students and grade their work
 
-### `npm run build` fails to minify
+### 🔒 Auth System
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* Google OAuth + email/password login
+* JWT stored in localStorage
+* Role-based UI rendering
+
+---
+
+## 🛠️ Setup Instructions
+
+```bash
+1. git clone https://github.com/ahmadh9/lms-frontend.git
+2. cd lms-frontend
+3. npm install
+4. Create a .env file with the backend URL:
+```
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+```bash
+5. npm run dev   # or npm start if CRA
+```
+
+---
+
+## 🌐 API Dependency
+
+This project relies on the backend API:
+👉 [LMS Backend GitHub Repo](https://github.com/ahmadh9/lms-backend)
+
+---
+
+## ✨ Deployment Tips
+
+* Ensure CORS is enabled on backend for frontend domain
+* Set correct `VITE_API_URL` for production
+* Recommended deployment: [Netlify](https://netlify.com) or [Vercel](https://vercel.com)
+
+---
+
+## 👨‍💻 Developed by Ahmad Hammad
+
+📧 [ahmadkhammad95@gmail.com](mailto:ahmadkhammad95@gmail.com)
+🐙 [https://github.com/ahmadh9](https://github.com/ahmadh9)
+
+---
+
+> For backend repo, features and DB schema, see: [LMS Backend Documentation](https://github.com/ahmadh9/lms-backend)
