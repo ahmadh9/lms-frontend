@@ -65,7 +65,7 @@ const Header = () => {
     ...(isAuthenticated ? [
       { text: 'Dashboard', path: '/dashboard', icon: <DashboardIcon /> },
     ] : []),
-    ...(isInstructor || isAdmin ? [
+    ...(isInstructor ? [
       { text: 'Create Course', path: '/courses/create', icon: <AddIcon /> },
     ] : []),
   ];
