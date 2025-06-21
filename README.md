@@ -57,22 +57,31 @@ Built using modern React patterns (hooks, context, modular services), the app is
 
 ## 🗂️ Project Structure
 
-lms-frontend/
-├── public/
-├── src/
-│ ├── pages/
-│ ├── components/
-│ ├── services/
-│ ├── context/
-│ └── App.js, index.js
-├── screenshots/ # ✅ contains images used below
-│ ├── student-dashboard.png
-│ ├── courses-page.png
-│ ├── quiz-tab.png
-│ └── admin-dashboard.png
+📁 lms-frontend/
+├── 📁 public/
+│   └── index.html                 ← main HTML shell
+├── 📁 src/
+│   ├── pages/                     ← route-level components (Dashboard, UsersManagement, etc)
+│   ├── components/                ← reusable UI components
+│   ├── services/                  ← API service layer
+│   │   ├── api.js                 ← Axios instance with base config
+│   │   ├── authService.js         ← login, logout, register, token
+│   │   ├── courseService.js       ← fetch/create/update courses
+│   │   ├── enrollmentService.js   ← enrollment actions and progress
+│   │   ├── progressService.js     ← track module/lesson completion
+│   │   └── quizService.js         ← quiz fetching and submission
+│   ├── context/                   ← global context (auth/role state)
+│   ├── App.js                     ← main React app wrapper
+│   └── index.js                   ← ReactDOM render entry
+├── 📁 screenshots/                ← images used in README
+│   ├── student-dashboard.png
+│   ├── courses-page.png
+│   ├── quiz-tab.png
+│   └── admin-dashboard.png
 ├── .gitignore
 ├── package.json
-└── README.md
+├── README.md
+└── .env.example                   ← environment variable sample
 
 
 ---
