@@ -1,5 +1,5 @@
-// src/pages/CoursesPage.js
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Container,
   Grid,
@@ -20,67 +20,53 @@ import courseService from '../services/courseService';
 import CourseCard from '../components/courses/CourseCard';
 
 const CoursesPage = () => {
+  const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState('newest');
   const [page, setPage] = useState(1);
-  const itemsPerPage = 9; // 3x3 grid
+  const itemsPerPage = 9;
 
   useEffect(() => {
-    const loadCourses = async () => {
+    (async () => {
       try {
-        setLoading(true);
         const response = await courseService.getAllCourses();
-        let coursesData = response.courses || [];
-        
-        // فلترة الكورسات الموافق عليها فقط
-        coursesData = coursesData.filter(course => course.is_approved);
-        
-        // ترتيب الكورسات
+        let data = response.courses || [];
+        data = data.filter(c => c.is_approved);
         if (sortBy === 'newest') {
-          coursesData.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        } else if (sortBy === 'title') {
-          coursesData.sort((a, b) => a.title.localeCompare(b.title));
+          data.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        } else {
+          data.sort((a, b) => a.title.localeCompare(b.title));
         }
-        
-        setCourses(coursesData);
-      } catch (err) {
+        setCourses(data);
+      } catch {
         setError('Failed to load courses');
-        console.error('Error fetching courses:', err);
       } finally {
         setLoading(false);
       }
-    };
-
-    loadCourses();
+    })();
   }, [sortBy]);
 
-  const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
-    setPage(1); // Reset to first page when searching
+  const handleSearch = e => {
+    setSearchQuery(e.target.value);
+    setPage(1);
   };
 
-  const handlePageChange = (event, value) => {
+  const handlePageChange = (_, value) => {
     setPage(value);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // فلترة الكورسات بناءً على البحث
-  const filteredCourses = courses.filter(course =>
-    course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    course.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    course.instructor_name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filtered = courses.filter(c =>
+    c.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    c.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    c.instructor_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // حساب الكورسات للصفحة الحالية
-  const paginatedCourses = filteredCourses.slice(
-    (page - 1) * itemsPerPage,
-    page * itemsPerPage
-  );
-
-  const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
+  const paginated = filtered.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+  const totalPages = Math.ceil(filtered.length / itemsPerPage);
 
   if (loading) {
     return (
@@ -92,17 +78,13 @@ const CoursesPage = () => {
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Typography variant="h4" component="h1" gutterBottom>
+      <Typography variant="h4" gutterBottom>
         All Courses
       </Typography>
 
-      {error && (
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {error}
-        </Alert>
-      )}
+      {error && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}
 
-      {/* Search and Filter Bar */}
+      {/* بحث وترتيب */}
       <Box sx={{ mb: 4, display: 'flex', gap: 2, flexWrap: 'wrap' }}>
         <TextField
           placeholder="Search courses..."
@@ -118,61 +100,59 @@ const CoursesPage = () => {
             ),
           }}
         />
-        
         <FormControl sx={{ minWidth: 150 }}>
           <InputLabel>Sort By</InputLabel>
-          <Select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            label="Sort By"
-          >
+          <Select value={sortBy} onChange={e => setSortBy(e.target.value)} label="Sort By">
             <MenuItem value="newest">Newest</MenuItem>
             <MenuItem value="title">Title</MenuItem>
           </Select>
         </FormControl>
       </Box>
 
-      {/* Courses Grid */}
-      {paginatedCourses.length === 0 ? (
+      {/* شبكة الدورات */}
+      {paginated.length === 0 ? (
         <Box sx={{ textAlign: 'center', py: 8 }}>
-          <Typography variant="h6" color="textSecondary">
+          <Typography variant="h6" color="text.secondary">
             No courses found
           </Typography>
         </Box>
       ) : (
         <>
-          <Grid 
-            container 
+          <Grid
+            container
             spacing={3}
             sx={{
-              // ضمان التناسق في العرض
               display: 'grid',
               gridTemplateColumns: {
-                xs: '1fr', // عمود واحد على الشاشات الصغيرة
-                sm: 'repeat(2, 1fr)', // عمودين على الشاشات المتوسطة
-                md: 'repeat(3, 1fr)', // 3 أعمدة على الشاشات الكبيرة
+                xs: '1fr',
+                sm: 'repeat(2, 1fr)',
+                md: 'repeat(3, 1fr)',
               },
               gap: 3,
-              // ضمان نفس الارتفاع لجميع البطاقات في نفس الصف
               gridAutoRows: '1fr',
             }}
           >
-            {paginatedCourses.map((course) => (
-              <Box key={course.id} sx={{ display: 'flex' }}>
-                <CourseCard course={course} />
+            {paginated.map(course => (
+              <Box key={course.id} sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Box sx={{ width: '100%', maxWidth: 380 }}>
+                  <CourseCard
+                    course={course}
+                    onClick={() => navigate(`/courses/${course.id}`)}
+                  />
+                </Box>
               </Box>
             ))}
           </Grid>
 
-          {/* Pagination */}
+          {/* ترقيم الصفحات */}
           {totalPages > 1 && (
             <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
               <Pagination
                 count={totalPages}
                 page={page}
                 onChange={handlePageChange}
-                color="primary"
                 size="large"
+                color="primary"
               />
             </Box>
           )}
