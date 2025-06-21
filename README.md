@@ -122,19 +122,21 @@ lms-frontend/
 ## 🛠️ Setup Instructions
 
 ```bash
-# 1. Clone project
+# 1. Clone the project
 git clone https://github.com/ahmadh9/lms-frontend.git
 cd lms-frontend
 
 # 2. Install dependencies
 npm install
 
-# 3. Create .env file
+# 3. Create a .env file in the root directory
 
-VITE_API_URL=http://localhost:5000/api
+REACT_APP_API_URL=http://localhost:5000/api
 
-# 4. Run development server
-npm run dev
+# 4. Run the development server
+npm start
+
+📝 Make sure to restart the dev server after editing the .env file.
 
 🌐 API Dependency
 
