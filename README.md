@@ -57,6 +57,7 @@ Built using modern React patterns (hooks, context, modular services), the app is
 
 ## 🗂️ Project Structure
 
+```plaintext
 📁 lms-frontend/
 ├── 📁 public/
 │   └── index.html                 ← main HTML shell
