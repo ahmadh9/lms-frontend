@@ -83,6 +83,7 @@ Built using modern React patterns (hooks, context, modular services), the app is
 ├── package.json
 ├── README.md
 └── .env.example                   ← environment variable sample
+```plaintext
 
 
 ---
