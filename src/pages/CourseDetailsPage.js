@@ -634,7 +634,16 @@ const CourseDetailsPage = () => {
             <Button 
               variant="contained" 
               size="large" 
-              onClick={() => navigate(`/courses/${courseId}`)}
+              onClick={async () => {
+                try {
+                  await enrollmentService.enrollInCourse(courseId);
+                  setIsEnrolled(true);
+                  // Reload course data after enrollment
+                  window.location.reload();
+                } catch (error) {
+                  console.error('Enrollment failed:', error);
+                }
+              }}
               startIcon={<SchoolIcon />}
               sx={{
                 px: 5,
