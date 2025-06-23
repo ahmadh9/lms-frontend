@@ -44,15 +44,14 @@ Built using modern React patterns (hooks, context, modular services), the app is
 
 ## 🧩 Tech Stack
 
-| Layer      | Technology               |
-| ---------- | ------------------------ |
-| Frontend   | React.js (Vite / CRA)    |
-| UI Library | Material UI (MUI v5)     |
-| Routing    | React Router DOM         |
-| State Mgmt | React Context + useState |
-| HTTP       | Axios                    |
-| Auth Flow  | JWT + Google OAuth       |
-
+| Layer       | Technology                   |
+|-------------|------------------------------|
+| Frontend    | React.js (Create React App)  |
+| UI Library  | Material UI (MUI v5)         |
+| Routing     | React Router DOM             |
+| State Mgmt  | React Context + useState     |
+| HTTP        | Axios                        |
+| Auth Flow   | JWT + Google OAuth           |
 ---
 
 ## 🗂️ Project Structure
